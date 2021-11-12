@@ -2,17 +2,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>b43f4791-f8d7-4fe4-acec-13674399a4a3</ProjectGuid>
+    <ProjectGuid>6f0adb65-523d-4c2d-81ea-82ed976fbea0</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Prueba1ProyectoEstructuras.py</StartupFile>
+    <StartupFile>Proyecto_2.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>Prueba1ProyectoEstructuras</Name>
-    <RootNamespace>Prueba1ProyectoEstructuras</RootNamespace>
-    <InterpreterId>
-    </InterpreterId>
+    <Name>Proyecto_2</Name>
+    <RootNamespace>Proyecto_2</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,22 +21,16 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AnalizadorArchivos.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="AnalizadorSemantico.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Funcion.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Instruccion.py">
+    <Compile Include="Proyecto_2.py" />
+    <Compile Include="TablaHash.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Main.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Prueba1ProyectoEstructuras.py" />
     <Compile Include="Variable.py">
       <SubType>Code</SubType>
     </Compile>
