@@ -1,0 +1,19 @@
+int x = 40;
+int y = 17;
+float k = 10.7;
+string prueba = "valor";
+void funcion(float v,string n, int p){
+    if (v > 0.0){
+
+        n = “Mayor”;
+        x = x + 5;
+        }
+    while (p > 0){
+
+        n = “Mayor”;
+        x = x + 5;
+        }
+}
+string funcion_test(string v, string n, string p){
+    return "v";
+}
