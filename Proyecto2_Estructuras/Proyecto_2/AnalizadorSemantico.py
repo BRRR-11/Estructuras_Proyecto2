@@ -47,10 +47,10 @@ class AnalizadorSemantico:
                                         x1 = 3
                                         while x1 < line.count(" ") - 1:
                                             if  line.split(' ')[x1].strip() != ',':
-                                                tipeV = line.split(' ')[x1].strip()
+                                                typeV = line.split(' ')[x1].strip()
                                             if  line.split(' ')[x1+1].strip() != ',':
                                                 nameV = line.split(' ')[x1+1].strip()
-                                            var = var.var(tipeV,nameV,None,"local",self.numlines(line2))
+                                            var = var.var(typeV,nameV,None,"local",self.numlines(line2))
                                             self.table.Insert(nameV,var)
                                             x1 = x1 + 3
                                  
@@ -235,12 +235,12 @@ class AnalizadorSemantico:
                                 nameV1 = line2.split(' ')[1].strip()
                                 nameV  = nameV1.replace(';','')
                                 if self._estaenlatable(nameV) == True:
-                                    tipeV = self.table.Search(nameV).gettype()
+                                    typeV = self.table.Search(nameV).gettype()
                             
-                                    if tipeV == None:
+                                    if typeV == None:
                                         print("Error en line:" , self.numlines(line2) + cont ,"La var ", "'",self.table.Search(nameV).getname(),"'", " No esta declarada")
 
-                                    elif tipeV != type:
+                                    elif typeV != type:
                                             print("Error en line:" , self.numlines(line2)  , " valor de retorno no coincide con el type de funcion")
                                 else:
                                     if self.es_int(nameV) == False and self.isFloat(nameV) == False:
