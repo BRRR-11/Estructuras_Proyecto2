@@ -7,10 +7,10 @@ return texto;
 }
 return 10;
 }
-
+int ty = 1;
 void algo ( float x , int y ) {
 if ( ty < 10 ) {
-int numero = x;
+int numero = 7;
 float flotante = y;	
 }
 }
