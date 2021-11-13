@@ -148,12 +148,7 @@ class AnalizadorSemantico:
             return False
         return True
 
-    def isInt(self,line):
-        x = re.search('int',line)
-        if(x):
-            return True
-        else:
-            return False
+   
 
     def types(self,type):
         if type == "int":
@@ -162,6 +157,13 @@ class AnalizadorSemantico:
             return str
         if type == "float":
             return float
+
+    def isInt(self,line):
+        x = re.search('int',line)
+        if(x):
+            return True
+        else:
+            return False
 
     def numlines(self,searchLin):
         cont = 1
