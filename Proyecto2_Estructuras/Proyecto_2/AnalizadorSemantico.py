@@ -6,7 +6,7 @@ import Variable
 
 class AnalizadorSemantico:
     def __init__(self):
-        self.table = tableHash.tableHash()
+        self.table = TablaHash.TablaHash()
         self.tokens = ['void','int','float','string']
         
 
@@ -29,7 +29,7 @@ class AnalizadorSemantico:
 
         with open("codigo.txt", "r") as f:
             for line in f:
-                if self._isFuncion(line) is True:
+                if self.isFuncion(line) is True:
                      name = line.split(' ')[1].strip() 
                      cont = cont + 1
                      contenido = ""
@@ -50,7 +50,7 @@ class AnalizadorSemantico:
                                                 typeV = line.split(' ')[x1].strip()
                                             if  line.split(' ')[x1+1].strip() != ',':
                                                 nameV = line.split(' ')[x1+1].strip()
-                                            var = var.var(typeV,nameV,None,"local",self.numlines(line2))
+                                            var = Variable.Variable(typeV,nameV,None,"local",self.numlines(line2))
                                             self.table.Insert(nameV,var)
                                             x1 = x1 + 3
                                  
@@ -97,7 +97,7 @@ class AnalizadorSemantico:
                                             valor13 = line2.split('=')[1].strip()
                                             valor3 = valor13.replace(';','')
                         
-                                            var = var.var(type3,name3,valor3,"local",self.numlines(line2))
+                                            var = Variable.Variable(type3,name3,valor3,"local",self.numlines(line2))
                                             self.table.Insert(name3,var)
                             
                          
@@ -120,7 +120,7 @@ class AnalizadorSemantico:
                             valor1 = line.split('=')[1].strip()
                             valor = valor1.replace(';','')
                         
-                            var = var.var(type,name,valor,"global",self.numlines(line))
+                            var = Variable.Variable(type,name,valor,"global",self.numlines(line))
                             self.table.Insert(name,var)
                     elif line.count(" ") == 3:
                         type = line.split(' ')[0].strip()
@@ -128,7 +128,7 @@ class AnalizadorSemantico:
                         valor1 = line.split('=')[1].strip()
                         valor = valor1.replace(';','')
 
-                        var = var.var(type,name,valor,"global",self.numlines(line))
+                        var = Variable.Variable(type,name,valor,"global",self.numlines(line))
                         self.table.Insert(name,var)
                     elif line.count(" ") == 2:
                         name = line.split(' ')[0].strip()
@@ -214,17 +214,16 @@ class AnalizadorSemantico:
          with open("codigo.txt", "r") as f:
             for line in f:
                 cont = 0
-                if self._isFuncion(line) is True and self._while_if(line) is False:
+                if self.isFuncion(line) is True and self._while_if(line) is False:
                     name = line.split(' ')[1].strip() 
-                    contenido = self.table.Search(name).getcontenido()
-                    
+                    contenido = self.table.Search(name).getCuerpo()                       
                     for i in contenido:
                         if i == '\n':
                             cont = cont + 1
 
                     for line2 in f:
                         if line2 !=' ':
-                            type  = self.table.Search(name).gettype()
+                            type  = self.table.Search(name).getTipo()
                             x = re.search('return',contenido)
 
                             if(x and type == "void" and cont == 0):
@@ -235,7 +234,7 @@ class AnalizadorSemantico:
                                 nameV1 = line2.split(' ')[1].strip()
                                 nameV  = nameV1.replace(';','')
                                 if self._estaenlatable(nameV) == True:
-                                    typeV = self.table.Search(nameV).gettype()
+                                    typeV = self.table.Search(nameV).getTipo()
                             
                                     if typeV == None:
                                         print("Error en line:" , self.numlines(line2) + cont ,"La var ", "'",self.table.Search(nameV).getname(),"'", " No esta declarada")
@@ -269,8 +268,8 @@ class AnalizadorSemantico:
                                         conta = conta + 1
 
                                 if self.isFloat(valor2) == False and self.es_int(valor2) == False:
-                                    if self.table.Search(nameV2).gettype() != "string":
-                                        print("Error en line:" , self.numlines(line2) , " valor del type de var","'",self.table.Search(nameV2).getname(),"'","no coincide")
+                                    if self.table.Search(nameV2).getTipo() != "string":
+                                        print("Error en line:" , self.numlines(line2) , " valor del type de var","'",self.table.Search(nameV2).getNombre(),"'","no coincide")
                                 conta = 0   
 
                             nameParametro = ""
@@ -288,10 +287,10 @@ class AnalizadorSemantico:
 
         with open("codigo.txt", "r") as f:
             for line in f:
-                if self._isFuncion(line) is True and self._while_if(line) is False:
+                if self.isFuncion(line) is True and self._while_if(line) is False:
                      name = line.split(' ')[1].strip() 
                      for i in range(len(self.tokens)):
-                         if self.table.Search(name).gettype() != self.tokens[i]:
+                         if self.table.Search(name).getTipo() != self.tokens[i]:
                              cont = cont + 1
                      if cont == 4:  
                          print("Error en line:" , self.numlines(line) , " type de dato: " + self.table.Search(name).gettype() + " no valido")
@@ -300,7 +299,7 @@ class AnalizadorSemantico:
                     if line.count(" ") == 3:
                         name = line.split(' ')[1].strip()
                         for i in range(len(self.tokens)):
-                                if self.table.Search(name).gettype() != self.tokens[i]:
+                                if self.table.Search(name).getTipo() != self.tokens[i]:
                                    cont = cont + 1
                         if cont == 4:  
                                  if self.table.Search(name).gettype() != None:
@@ -310,15 +309,15 @@ class AnalizadorSemantico:
                         cont = 0
 
                         if self.table.Search(name).getValor().isdigit() == True:
-                             if self.types(self.table.Search(name).gettype()) != int and self.types(self.table.Search(name).gettype()) != float:
-                                   print("Error en line:" , self.numlines(line) , " valor del type de var",self.table.Search(name).getname(),"no coincide")
+                             if self.types(self.table.Search(name).getTipo) != int and self.types(self.table.Search(name).getTipo()) != float:
+                                   print("Error en line:" , self.numlines(line) , " valor del type de var",self.table.Search(name).getNombre(),"no coincide")
 
                         if self.table.Search(name).getValor().isdigit() != True and self.isFloat(self.table.Search(name).getValor()) is False:
                             if self._estaenlatable(self.table.Search(name).getValor()) == True:
-                                if self.types(self.table.Search(name).gettype()) != str and self.table.Search(self.table.Search(name).getValor()).gettype() != self.table.Search(name).gettype():
-                                    print("Error en line:" , self.numlines(line) , " valor del type de var",self.table.Search(name).getname(),"no coincide")
+                                if self.types(self.table.Search(name).getTipo()) != str and self.table.Search(self.table.Search(name).getValor()).getTipo() != self.table.Search(name).getTipo():
+                                    print("Error en line:" , self.numlines(line) , " valor del type de var",self.table.Search(name).getNombre(),"no coincide")
                             else:
-                                if self.types(self.table.Search(name).gettype()) != str:
+                                if self.types(self.table.Search(name).getTipo()) != str:
                                     print("Error en line:" , self.numlines(line) , " valor del type de var",self.table.Search(name).getname(),"no coincide")
                         if  self.isFloat(self.table.Search(name).getValor()) == True and self.table.Search(name).getValor().isdigit() == False:
                              if self.types(self.table.Search(name).gettype()) != float:
@@ -328,7 +327,7 @@ class AnalizadorSemantico:
                     elif line.count(" ") == 2:
                         name = line.split(' ')[0].strip()    
                         for i in range(len(self.tokens)):
-                              if self.table.Search(name).gettype() != self.tokens[i]:
+                              if self.table.Search(name).getTipo() != self.tokens[i]:
                                   cont = cont + 1
                         if cont == 4:  
                                  if self.table.Search(name).gettype() != None:

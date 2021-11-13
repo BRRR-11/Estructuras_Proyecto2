@@ -2,11 +2,11 @@ import AnalizadorSemantico
 
 analizador = AnalizadorSemantico.AnalizadorSemantico()
 
-analizador._imprimirArchivo()
+analizador.imprimirArchivo()
 print()
-analizador.crear_tabla()
+analizador.createTable()
 analizador._errorAsignacion()
-analizador._errorDeCuerpoFunciones()
+analizador._errorDecontenidoFunciones()
 print()
 
 
