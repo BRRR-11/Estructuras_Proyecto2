@@ -138,8 +138,7 @@ class AnalizadorSemantico:
                         var = var.var(None,name,valor,"global",self.numlines(line))
                         self.table.Insert(name,var)
 
-    def imprimir(self):
-        print(self.table.Search('cadena').getValor())
+    
 
     def tieneParametros(self,line):
         x = re.search('\(' '\)',line)
@@ -150,7 +149,7 @@ class AnalizadorSemantico:
 
    
 
-    def types(self,type):
+    def types(self,type):#Tipos de variables a verificar
         if type == "int":
             return int
         if type == "string":
@@ -158,7 +157,7 @@ class AnalizadorSemantico:
         if type == "float":
             return float
 
-    def isInt(self,line):
+    def isInt(self,line):#Verifica si hay una variable INT en una linea de texto
         x = re.search('int',line)
         if(x):
             return True
@@ -173,7 +172,7 @@ class AnalizadorSemantico:
                     return cont
                 cont = cont +1
 
-    def _while_if(self,line):
+    def _while_if(self,line):#Verifica si es un While IF
         x = re.search('if',line)
         y = re.search('while',line)
 
@@ -181,22 +180,25 @@ class AnalizadorSemantico:
             return True
         return False
 
-    def isFloat(self,var):
+    def isFloat(self,var):#Verifica si una variable es FLOAT
         try:
              float(var)
              return True
         except:
              return False
           
-    def es_int(self,var):
+    def es_int(self,var):#Verifica si una variable es INT
         try:
             int(var)
             return True
         except:
             return False
 
+    def imprimir(self):#Imprime reglon de texto
+            print(self.table.Search('cadena').getValor())
 
-    def imprimirArchivo(self):
+
+    def imprimirArchivo(self):#imprimi archivo de texto a evaluar
         cont = 1
         with open("codigo.txt", "r") as f:
             for line in f:
@@ -204,12 +206,12 @@ class AnalizadorSemantico:
                 cont = cont+1
             print()
 
-    def _estaenlatable(self,var):
+    def _estaenlatable(self,var):#Verifica si la variable esta en la Hash Table
         if self.table.Search(var) != None:
             return True
         return False
 
-    def _errorDecontenidoFunciones(self):
+    def _errorDecontenidoFunciones(self):#Devuelve el Error y la linea en la que se encuentra
          cont = 0
          contu = 0
          cont = 0
@@ -283,7 +285,7 @@ class AnalizadorSemantico:
                             if contu == cont:
                                 break
 
-    def _errorAsignacion(self):
+    def _errorAsignacion(self):#Verifica la asignacion de int, void , string
         cont = 0
         cont2 = 0
 
