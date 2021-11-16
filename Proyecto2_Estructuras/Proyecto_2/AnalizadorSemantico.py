@@ -139,7 +139,7 @@ class AnalizadorSemantico:
                         self.tabla.Insert(nombre,variable)
 
     def _imprimir(self):
-        print(self.tabla.Search('cadena').getValor())
+        print(self.tabla.Search('cadena').getValueVar())
 
     def _tieneParametros(self,linea):
         x = re.search('\(' '\)',linea)
@@ -235,10 +235,10 @@ class AnalizadorSemantico:
                                 nombreV1 = linea2.split(' ')[1].strip()
                                 nombreV  = nombreV1.replace(';','')
                                 if self._estaenlaTabla(nombreV) == True:
-                                    tipoV = self.tabla.Search(nombreV).getTipo()
+                                    tipoV = self.tabla.Search(nombreV).getTypeVar()
                             
                                     if tipoV == None:
-                                        print("Error en linea:" , self._numerodelineas(linea2) + contador ,"La variable ", "'",self.tabla.Search(nombreV).getNombre(),"'", " No esta declarada")
+                                        print("Error en linea:" , self._numerodelineas(linea2) + contador ,"La variable ", "'",self.tabla.Search(nombreV).getNameVar(),"'", " No esta declarada")
 
                                     elif tipoV != tipo:
                                             print("Error en linea:" , self._numerodelineas(linea2)  , " valor de retorno no coincide con el tipo de funcion")
@@ -259,18 +259,18 @@ class AnalizadorSemantico:
 
       
                                 if self.es_int(valor2) == True and conta == 0:
-                                        if self.tabla.Search(nombreV2).getTipo() != "int":
-                                            print("Error en linea:" , self._numerodelineas(linea2) , " valor del tipo de variable","'",self.tabla.Search(nombreV2).getNombre(),"'","no coincide")
+                                        if self.tabla.Search(nombreV2).getTypeVar() != "int":
+                                            print("Error en linea:" , self._numerodelineas(linea2) , " valor del tipo de variable","'",self.tabla.Search(nombreV2).getNameVar(),"'","no coincide")
                                             conta = conta+1
                                          
-                                if self.es_flotante(valor2) == True and self.tabla.Search(nombreV2).getAlcance() == "local" and conta == 0:
-                                    if self.tabla.Search(nombreV2).getTipo() != "float":
-                                        print("Error en linea:" , self._numerodelineas(linea2) , " valor del tipo de variable","'",self.tabla.Search(nombreV2).getNombre(),"'","no coincide")
+                                if self.es_flotante(valor2) == True and self.tabla.Search(nombreV2).getAlcanceVar() == "local" and conta == 0:
+                                    if self.tabla.Search(nombreV2).getTypeVar() != "float":
+                                        print("Error en linea:" , self._numerodelineas(linea2) , " valor del tipo de variable","'",self.tabla.Search(nombreV2).getNameVar(),"'","no coincide")
                                         conta = conta + 1
 
                                 if self.es_flotante(valor2) == False and self.es_int(valor2) == False:
-                                    if self.tabla.Search(nombreV2).getTipo() != "string":
-                                        print("Error en linea:" , self._numerodelineas(linea2) , " valor del tipo de variable","'",self.tabla.Search(nombreV2).getNombre(),"'","no coincide")
+                                    if self.tabla.Search(nombreV2).getTypeVar() != "string":
+                                        print("Error en linea:" , self._numerodelineas(linea2) , " valor del tipo de variable","'",self.tabla.Search(nombreV2).getNameVar(),"'","no coincide")
                                 conta = 0   
 
                             nombreParametro = ""
@@ -294,47 +294,47 @@ class AnalizadorSemantico:
                          if self.tabla.Search(nombre).getTipo() != self.tokens[i]:
                              contador = contador + 1
                      if contador == 4:  
-                         print("Error en linea:" , self._numerodelineas(linea) , " Tipo de dato: " + self.tabla.Search(nombre).getTipo() + " no valido")
+                         print("Error en linea:" , self._numerodelineas(linea) , " Tipo de dato: " + self.tabla.Search(nombre).getTypeVar() + " no valido")
                      contador = 0 
                 else:
                     if linea.count(" ") == 3:
                         nombre = linea.split(' ')[1].strip()
                         for i in range(len(self.tokens)):
-                                if self.tabla.Search(nombre).getTipo() != self.tokens[i]:
+                                if self.tabla.Search(nombre).getTypeVar() != self.tokens[i]:
                                    contador = contador + 1
                         if contador == 4:  
-                                 if self.tabla.Search(nombre).getTipo() != None:
-                                     print("Error en linea:" , self._numerodelineas(linea) , " Tipo de dato: " , self.tabla.Search(nombre).getTipo() , " no valido")
-                                 if self.tabla.Search(nombre).getTipo() == None:
-                                     print("Error en linea:" , self._numerodelineas(linea) ,"La variable " ,"'",self.tabla.Search(nombre).getNombre(),"'",self.tabla.Search(nombre).getNombre(), " No esta declarada")
+                                 if self.tabla.Search(nombre).getTypeVar() != None:
+                                     print("Error en linea:" , self._numerodelineas(linea) , " Tipo de dato: " , self.tabla.Search(nombre).getTypeVar() , " no valido")
+                                 if self.tabla.Search(nombre).getTypeVar() == None:
+                                     print("Error en linea:" , self._numerodelineas(linea) ,"La variable " ,"'",self.tabla.Search(nombre).getNameVar(),"'",self.tabla.Search(nombre).getNameVar(), " No esta declarada")
                         contador = 0
 
-                        if self.tabla.Search(nombre).getValor().isdigit() == True:
-                             if self._cualTipoes(self.tabla.Search(nombre).getTipo()) != int and self._cualTipoes(self.tabla.Search(nombre).getTipo()) != float:
-                                   print("Error en linea:" , self._numerodelineas(linea) , " valor del tipo de variable",self.tabla.Search(nombre).getNombre(),"no coincide")
+                        if self.tabla.Search(nombre).getValueVar().isdigit() == True:
+                             if self._cualTipoes(self.tabla.Search(nombre).getTypeVar()) != int and self._cualTipoes(self.tabla.Search(nombre).getTypeVar()) != float:
+                                   print("Error en linea:" , self._numerodelineas(linea) , " valor del tipo de variable",self.tabla.Search(nombre).getNameVar(),"no coincide")
 
-                        if self.tabla.Search(nombre).getValor().isdigit() != True and self.es_flotante(self.tabla.Search(nombre).getValor()) is False:
-                            if self._estaenlaTabla(self.tabla.Search(nombre).getValor()) == True:
-                                if self._cualTipoes(self.tabla.Search(nombre).getTipo()) != str and self.tabla.Search(self.tabla.Search(nombre).getValor()).getTipo() != self.tabla.Search(nombre).getTipo():
-                                    print("Error en linea:" , self._numerodelineas(linea) , " valor del tipo de variable",self.tabla.Search(nombre).getNombre(),"no coincide")
+                        if self.tabla.Search(nombre).getValueVar().isdigit() != True and self.es_flotante(self.tabla.Search(nombre).getValueVar()) is False:
+                            if self._estaenlaTabla(self.tabla.Search(nombre).getValueVar()) == True:
+                                if self._cualTipoes(self.tabla.Search(nombre).getTypeVar()) != str and self.tabla.Search(self.tabla.Search(nombre).getValueVar()).getTypeVar() != self.tabla.Search(nombre).getTypeVar():
+                                    print("Error en linea:" , self._numerodelineas(linea) , " valor del tipo de variable",self.tabla.Search(nombre).getNameVar(),"no coincide")
                             else:
-                                if self._cualTipoes(self.tabla.Search(nombre).getTipo()) != str:
-                                    print("Error en linea:" , self._numerodelineas(linea) , " valor del tipo de variable",self.tabla.Search(nombre).getNombre(),"no coincide")
-                        if  self.es_flotante(self.tabla.Search(nombre).getValor()) == True and self.tabla.Search(nombre).getValor().isdigit() == False:
-                             if self._cualTipoes(self.tabla.Search(nombre).getTipo()) != float:
-                                   print("Error en linea:" , self._numerodelineas(linea) , " valor del tipo de variable",self.tabla.Search(nombre).getNombre(),"no coincide")
+                                if self._cualTipoes(self.tabla.Search(nombre).getTypeVar()) != str:
+                                    print("Error en linea:" , self._numerodelineas(linea) , " valor del tipo de variable",self.tabla.Search(nombre).getNameVar(),"no coincide")
+                        if  self.es_flotante(self.tabla.Search(nombre).getValueVar()) == True and self.tabla.Search(nombre).getValueVar().isdigit() == False:
+                             if self._cualTipoes(self.tabla.Search(nombre).getTypeVar()) != float:
+                                   print("Error en linea:" , self._numerodelineas(linea) , " valor del tipo de variable",self.tabla.Search(nombre).getNameVar(),"no coincide")
                                 
                         
                     elif linea.count(" ") == 2:
                         nombre = linea.split(' ')[0].strip()    
                         for i in range(len(self.tokens)):
-                              if self.tabla.Search(nombre).getTipo() != self.tokens[i]:
+                              if self.tabla.Search(nombre).getTypeVar() != self.tokens[i]:
                                   contador = contador + 1
                         if contador == 4:  
-                                 if self.tabla.Search(nombre).getTipo() != None:
-                                     print("Error en linea:" , self._numerodelineas(linea) , " Tipo de dato: " , self.tabla.Search(nombre).getTipo() , " no valido")
-                                 if self.tabla.Search(nombre).getTipo() == None:
-                                     print("Error en linea:" , self._numerodelineas(linea) ,"La variable ", "'",self.tabla.Search(nombre).getNombre(),"'", " No esta declarada")
+                                 if self.tabla.Search(nombre).getTypeVar() != None:
+                                     print("Error en linea:" , self._numerodelineas(linea) , " Tipo de dato: " , self.tabla.Search(nombre).getTypeVar() , " no valido")
+                                 if self.tabla.Search(nombre).getTypeVar() == None:
+                                     print("Error en linea:" , self._numerodelineas(linea) ,"La variable ", "'",self.tabla.Search(nombre).getNameVar(),"'", " No esta declarada")
                         contador = 0
 
                         

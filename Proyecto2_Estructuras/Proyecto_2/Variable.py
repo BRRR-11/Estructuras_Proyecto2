@@ -1,25 +1,25 @@
 
 class Variable:
     def __init__(self, tipo,nombre,valor,alcance,linea):
-        self.tipo = tipo
-        self.nombre = nombre
+        self.typeVar = tipo
+        self.nameVar = nombre
         self.alcance = alcance
-        self.valor = valor
-        self.linea = linea
+        self.valueVar = valor
+        self.lineVar = linea
 
-    def getLinea(self):
-        return self.linea
+    def getLineVar(self):
+        return self.lineVar
 
-    def getTipo(self):
-        return self.tipo
+    def getTypeVar(self):
+        return self.typeVar
 
-    def getNombre(self):
-        return self.nombre
+    def getNameVar(self):
+        return self.nameVar
 
-    def getAlcance(self):
+    def getAlcanceVar(self):
         return self.alcance
     
-    def getValor(self):
-        return self.valor
+    def getValueVar(self):
+        return self.valueVar
 
    
