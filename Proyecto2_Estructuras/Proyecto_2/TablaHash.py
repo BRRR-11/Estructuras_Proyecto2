@@ -1,25 +1,25 @@
 
 class TablaHash:
     def __init__(self):
-        self.table = {}
+        self.tableHash = {}
 
     
-    def Hash_func(self, value):
+    def funcionHash(self, value):
         key = 0
         for i in range(0,len(value)):
             key += ord(value[i])
         return key 
 
-    def Insert(self, value,valor):
-        hash = self.Hash_func(value)
-        if self.table.get(hash) is None:
-            self.table[hash] = valor
+    def insertTableHash(self, value,valor):
+        hash = self.funcionHash(value)
+        if self.tableHash.get(hash) is None:
+            self.tableHash[hash] = valor
 
-    def Search(self,value): 
-        hash = self.Hash_func(value);
-        if self.table.get(hash) is None:
+    def searchTableHash(self,value): 
+        hash = self.funcionHash(value);
+        if self.tableHash.get(hash) is None:
             return None
         else:
-            return self.table[hash]
+            return self.tableHash[hash]
   
 
