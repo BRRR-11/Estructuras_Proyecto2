@@ -7,19 +7,19 @@ class Variable:
         self.valueVar = valor
         self.lineVar = linea
 
-    def getLineVar(self):
+    def getLineVar(self):#Obtine la linea de codigo en la que se encuentra la variable
         return self.lineVar
 
-    def getTypeVar(self):
+    def getTypeVar(self):#Obtiene el tipo de variable int,float,string
         return self.typeVar
 
-    def getNameVar(self):
+    def getNameVar(self):#Obtiene el nombre de la varible
         return self.nameVar
 
-    def getAlcanceVar(self):
+    def getAlcanceVar(self):#Global o no global
         return self.alcance
     
-    def getValueVar(self):
+    def getValueVar(self):#Obtine el valor de la varible
         return self.valueVar
 
    
