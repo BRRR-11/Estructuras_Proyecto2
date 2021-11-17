@@ -14,12 +14,72 @@ class AnalizadorSemantico:
         return self.tableHash.searchTableHash(num)
         
 
-    def isFuncion(self,linea):#Revisar
+    def isFuncion(self,linea):#Revisa si lo que esta en la linea es una funcion
         y = re.search('\(',linea)
         if(y):  
             return True
         else:
             return False
+
+    def tieneParametros(self,linea):#Analiza si un metodo tiene parametros
+        x = re.search('\(' '\)',linea)
+
+        if(x):
+            return False
+        return True
+
+ 
+    def whatType(self,typeT): #Revisa el tipo 
+        if typeT == "int":
+            return int
+        if typeT == "string":
+            return str
+        if typeT == "float":
+            return float
+
+    def numLine(self,lineaAbuscar):#Busca el numero de linea en el codigo
+        contador = 1
+        with open("codigo.txt", "r") as f:
+            for linea in f:
+                if linea == lineaAbuscar:
+                    return contador
+                contador = contador +1
+
+    def whileAndIf(self,linea):#Busca si en la linea existe un IF o un While 
+        x = re.search('if',linea)
+        y = re.search('while',linea)
+
+        if x or y:
+            return True
+        return False
+
+    def isFlotante(self,variable):#Revisa si la variable es float
+        try:
+             float(variable)
+             return True
+        except:
+             return False
+          
+    def isIntV(self,variable):#Revisa si la variable es INT
+        try:
+            int(variable)
+            return True
+        except:
+            return False
+
+
+    def mostrarArchivo(self):#Lee el archivo y lo muestra junto con el numero de lineas
+        contador = 1
+        with open("codigo.txt", "r") as f:
+            for line in f:
+                print(contador , " ", line,end='')
+                contador = contador+1
+            print()
+
+    def isInTable(self,variable):#Busca si una variable esta almacenada en la tabla HASH
+        if self.tableHash.searchTableHash(variable) != None:
+            return True
+        return False
 
     def createTable(self):#Almacena Palabras, simbolos que vienen del codigo txt en las tablas HASH
         cont = 0
@@ -138,74 +198,9 @@ class AnalizadorSemantico:
                         variable = Variable.Variable(None,name,valor,"global",self.numLine(line))
                         self.tableHash.insertTableHash(name,variable)
 
-    def mostrar(self):#Revisar
-        print(self.tableHash.searchTableHash('cadena').getValueVar())
-
-    def tieneParametros(self,linea):#Analiza si un metodo tiene parametros
-        x = re.search('\(' '\)',linea)
-
-        if(x):
-            return False
-        return True
-
-    def isInt(self,linea):#Revisa si existe un INT en la linea
-        x = re.search('int',linea)
-        if(x):
-            return True
-        else:
-            return False
-
-    def whatType(self,typeT): #Revisa el tipo 
-        if typeT == "int":
-            return int
-        if typeT == "string":
-            return str
-        if typeT == "float":
-            return float
-
-    def numLine(self,lineaAbuscar):#Busca el numero de linea en el codigo
-        contador = 1
-        with open("codigo.txt", "r") as f:
-            for linea in f:
-                if linea == lineaAbuscar:
-                    return contador
-                contador = contador +1
-
-    def whileAndIf(self,linea):#Busca si en la linea existe un IF o un While 
-        x = re.search('if',linea)
-        y = re.search('while',linea)
-
-        if x or y:
-            return True
-        return False
-
-    def isFlotante(self,variable):#Revisa si la variable es float
-        try:
-             float(variable)
-             return True
-        except:
-             return False
-          
-    def isIntV(self,variable):#Revisa si la variable es INT
-        try:
-            int(variable)
-            return True
-        except:
-            return False
+    
 
 
-    def mostrarArchivo(self):#Lee el archivo y lo muestra junto con el numero de lineas
-        contador = 1
-        with open("codigo.txt", "r") as f:
-            for line in f:
-                print(contador , " ", line,end='')
-                contador = contador+1
-            print()
-
-    def isInTable(self,variable):#Busca si una variable esta almacenada en la tabla HASH
-        if self.tableHash.searchTableHash(variable) != None:
-            return True
-        return False
 
     def errorContenidoFunc(self):#Busca error dentro de la funcion
          contador = 0
