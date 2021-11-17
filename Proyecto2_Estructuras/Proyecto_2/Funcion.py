@@ -1,21 +1,21 @@
 
 class Funcion:
-    def __init__(self, tipo,nombre,cuerpo,linea):
-        self.tipo = tipo
-        self.nombre = nombre
-        self.cuerpo = cuerpo
-        self.linea = linea
+    def __init__(self, tipo,nombre,contenido,linea):
+        self.typeFuncion = tipo
+        self.nameFuncion = nombre
+        self.contenidoFuncion = contenido
+        self.line = linea
 
-    def getlinea(self):
-        return self.linea
+    def getlineFuncion(self):
+        return self.line
 
-    def getTipo(self):
-        return self.tipo
+    def getTypeFuncion(self):
+        return self.typeFuncion
 
-    def getNombre(self):
-        return self.nombre
+    def getNameFuncion(self):
+        return self.nameFuncion
 
-    def getCuerpo(self):
-        return self.cuerpo
+    def getContenidoFuncion(self):
+        return self.contenidoFuncion
 
    

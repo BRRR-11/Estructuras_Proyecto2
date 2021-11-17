@@ -216,7 +216,7 @@ class AnalizadorSemantico:
                 cont = 0
                 if self._esFuncion(linea) is True and self._while_if(linea) is False:
                     nombre = linea.split(' ')[1].strip() 
-                    cuerpo = self.tabla.searchTableHash(nombre).getCuerpo()
+                    cuerpo = self.tabla.searchTableHash(nombre).getContenidoFuncion()
                     
                     for i in cuerpo:
                         if i == '\n':
@@ -224,7 +224,7 @@ class AnalizadorSemantico:
 
                     for linea2 in f:
                         if linea2 !=' ':
-                            tipo  = self.tabla.searchTableHash(nombre).getTipo()
+                            tipo  = self.tabla.searchTableHash(nombre).getTypeFuncion()
                             x = re.search('return',cuerpo)
 
                             if(x and tipo == "void" and cont == 0):
@@ -291,7 +291,7 @@ class AnalizadorSemantico:
                 if self._esFuncion(linea) is True and self._while_if(linea) is False:
                      nombre = linea.split(' ')[1].strip() 
                      for i in range(len(self.tokens)):
-                         if self.tabla.searchTableHash(nombre).getTipo() != self.tokens[i]:
+                         if self.tabla.searchTableHash(nombre).getTypeFuncion() != self.tokens[i]:
                              contador = contador + 1
                      if contador == 4:  
                          print("Error en linea:" , self._numerodelineas(linea) , " Tipo de dato: " + self.tabla.searchTableHash(nombre).getTypeVar() + " no valido")
