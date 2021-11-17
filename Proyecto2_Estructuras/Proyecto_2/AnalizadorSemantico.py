@@ -13,7 +13,7 @@ class AnalizadorSemantico:
         contador = 1
         with open("codigo.txt", "r") as f:
             for line in f:
-                print(contador , " ", line,end='')
+                print(contador , "_  ", line,end='')
                 contador = contador+1
             print()  
 
@@ -222,7 +222,7 @@ class AnalizadorSemantico:
                             x = re.search('return',cuerpo)
 
                             if(x and tipo == "void" and cont == 0):
-                                print("Error en linea:" , self.numLine(linea2)  , " 'return' no valido en funciones void")
+                                print("Error en la linea ->" , self.numLine(linea2)  , " 'return' no valido en funciones void")
                                 cont = cont+1
                         
                             if linea2.split(' ')[0].strip() == "return":
@@ -232,18 +232,18 @@ class AnalizadorSemantico:
                                     tipoV = self.tableHash.searchTableHash(nombreV).getTypeVar()
                             
                                     if tipoV == None:
-                                        print("Error en linea:" , self.numLine(linea2) + contador ,"La variable ", "'",self.tableHash.searchTableHash(nombreV).getNameVar(),"'", " No esta declarada")
+                                        print("Error en la linea ->" , self.numLine(linea2) + contador ,"La variable ", "'",self.tableHash.searchTableHash(nombreV).getNameVar(),"'", " No esta declarada")
 
                                     elif tipoV != tipo:
-                                            print("Error en linea:" , self.numLine(linea2)  , " valor de retorno no coincide con el tipo de funcion")
+                                            print("Error en la linea ->" , self.numLine(linea2)  , " valor de retorno no coincide con el tipo de funcion")
                                 else:
                                     if self.isIntV(nombreV) == False and self.isFlotante(nombreV) == False:
                                         if tipo != "string":
-                                            print("Error en linea:" , self.numLine(linea2)  , " valor de retorno no coincide con el tipo de funcion")
+                                            print("Error en la linea ->" , self.numLine(linea2)  , " valor de retorno no coincide con el tipo de funcion")
 
                                     if self.isIntV(nombreV) == True or self.isFlotante(nombreV) == True:
                                         if tipo != "int" and "float":
-                                            print("Error en linea:" , self.numLine(linea2)  , " valor de retorno no coincide con el tipo de funcion")
+                                            print("Error en la linea ->" , self.numLine(linea2)  , " valor de retorno no coincide con el tipo de funcion")
 
                             if linea2.count(" ") == 2:
                                 conta = 0
@@ -254,24 +254,24 @@ class AnalizadorSemantico:
       
                                 if self.isIntV(valor2) == True and conta == 0:
                                         if self.tableHash.searchTableHash(nombreV2).getTypeVar() != "int":
-                                            print("Error en linea:" , self.numLine(linea2) , " valor del tipo de variable","'",self.tableHash.searchTableHash(nombreV2).getNameVar(),"'","no coincide")
+                                            print("Error en la linea ->" , self.numLine(linea2) , " valor del tipo de variable","'",self.tableHash.searchTableHash(nombreV2).getNameVar(),"'","no coincide")
                                             conta = conta+1
                                          
                                 if self.isFlotante(valor2) == True and self.tableHash.searchTableHash(nombreV2).getAlcanceVar() == "local" and conta == 0:
                                     if self.tableHash.searchTableHash(nombreV2).getTypeVar() != "float":
-                                        print("Error en linea:" , self.numLine(linea2) , " valor del tipo de variable","'",self.tableHash.searchTableHash(nombreV2).getNameVar(),"'","no coincide")
+                                        print("Error en la linea ->" , self.numLine(linea2) , " valor del tipo de variable","'",self.tableHash.searchTableHash(nombreV2).getNameVar(),"'","no coincide")
                                         conta = conta + 1
 
                                 if self.isFlotante(valor2) == False and self.isIntV(valor2) == False:
                                     if self.tableHash.searchTableHash(nombreV2).getTypeVar() != "string":
-                                        print("Error en linea:" , self.numLine(linea2) , " valor del tipo de variable","'",self.tableHash.searchTableHash(nombreV2).getNameVar(),"'","no coincide")
+                                        print("Error en la linea ->" , self.numLine(linea2) , " valor del tipo de variable","'",self.tableHash.searchTableHash(nombreV2).getNameVar(),"'","no coincide")
                                 conta = 0   
 
                             nombreParametro = ""
                             if self.whileAndIf(linea2) is True:
                                     nombreParametro = linea2.split(' ')[2].strip() 
                                     if self.tableHash.searchTableHash(nombreParametro) == None:
-                                        print("Error en linea:" , self.numLine(linea2) , " La variable ","'", nombreParametro,"'", " no esta declarada")
+                                        print("Error en la linea ->" , self.numLine(linea2) , " La variable ","'", nombreParametro,"'", " no esta declarada")
                             contu = contu + 1
                             if contu == contador:
                                 break
@@ -288,7 +288,7 @@ class AnalizadorSemantico:
                          if self.tableHash.searchTableHash(nombre).getTypeFuncion() != self.tokens[i]:
                              cont = cont + 1
                      if cont == 4:  
-                         print("Error en linea:" , self.numLine(linea) , " Tipo de dato: " + self.tableHash.searchTableHash(nombre).getTypeVar() + " no valido")
+                         print("Error en la linea ->" , self.numLine(linea) , " Tipo de dato: " + self.tableHash.searchTableHash(nombre).getTypeVar() + " no valido")
                      cont = 0 
                 else:
                     if linea.count(" ") == 3:
@@ -298,25 +298,25 @@ class AnalizadorSemantico:
                                    cont = cont + 1
                         if cont == 4:  
                                  if self.tableHash.searchTableHash(nombre).getTypeVar() != None:
-                                     print("Error en linea:" , self.numLine(linea) , " Tipo de dato: " , self.tableHash.searchTableHash(nombre).getTypeVar() , " no valido")
+                                     print("Error en la linea ->" , self.numLine(linea) , " Tipo de dato: " , self.tableHash.searchTableHash(nombre).getTypeVar() , " no valido")
                                  if self.tableHash.searchTableHash(nombre).getTypeVar() == None:
-                                     print("Error en linea:" , self.numLine(linea) ,"La variable " ,"'",self.tableHash.searchTableHash(nombre).getNameVar(),"'",self.tableHash.searchTableHash(nombre).getNameVar(), " No esta declarada")
+                                     print("Error en la linea ->" , self.numLine(linea) ,"La variable " ,"'",self.tableHash.searchTableHash(nombre).getNameVar(),"'",self.tableHash.searchTableHash(nombre).getNameVar(), " No esta declarada")
                         cont = 0
 
                         if self.tableHash.searchTableHash(nombre).getValueVar().isdigit() == True:
                              if self.whatType(self.tableHash.searchTableHash(nombre).getTypeVar()) != int and self.whatType(self.tableHash.searchTableHash(nombre).getTypeVar()) != float:
-                                   print("Error en linea:" , self.numLine(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
+                                   print("Error en la linea ->" , self.numLine(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
 
                         if self.tableHash.searchTableHash(nombre).getValueVar().isdigit() != True and self.isFlotante(self.tableHash.searchTableHash(nombre).getValueVar()) is False:
                             if self.isInTable(self.tableHash.searchTableHash(nombre).getValueVar()) == True:
                                 if self.whatType(self.tableHash.searchTableHash(nombre).getTypeVar()) != str and self.tableHash.searchTableHash(self.tableHash.searchTableHash(nombre).getValueVar()).getTypeVar() != self.tableHash.searchTableHash(nombre).getTypeVar():
-                                    print("Error en linea:" , self.numLine(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
+                                    print("Error en la linea ->" , self.numLine(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
                             else:
                                 if self.whatType(self.tableHash.searchTableHash(nombre).getTypeVar()) != str:
-                                    print("Error en linea:" , self.numLine(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
+                                    print("Error en la linea ->" , self.numLine(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
                         if  self.isFlotante(self.tableHash.searchTableHash(nombre).getValueVar()) == True and self.tableHash.searchTableHash(nombre).getValueVar().isdigit() == False:
                              if self.whatType(self.tableHash.searchTableHash(nombre).getTypeVar()) != float:
-                                   print("Error en linea:" , self.numLine(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
+                                   print("Error en la linea ->" , self.numLine(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
                                 
                         
                     elif linea.count(" ") == 2:
@@ -326,9 +326,9 @@ class AnalizadorSemantico:
                                   cont = cont + 1
                         if cont == 4:  
                                  if self.tableHash.searchTableHash(nombre).getTypeVar() != None:
-                                     print("Error en linea:" , self.numLine(linea) , " Tipo de dato: " , self.tableHash.searchTableHash(nombre).getTypeVar() , " no valido")
+                                     print("Error en la linea ->" , self.numLine(linea) , " Tipo de dato: " , self.tableHash.searchTableHash(nombre).getTypeVar() , " no valido")
                                  if self.tableHash.searchTableHash(nombre).getTypeVar() == None:
-                                     print("Error en linea:" , self.numLine(linea) ,"La variable ", "'",self.tableHash.searchTableHash(nombre).getNameVar(),"'", " No esta declarada")
+                                     print("Error en la linea ->" , self.numLine(linea) ,"La variable ", "'",self.tableHash.searchTableHash(nombre).getNameVar(),"'", " No esta declarada")
                         cont = 0
 
                         
