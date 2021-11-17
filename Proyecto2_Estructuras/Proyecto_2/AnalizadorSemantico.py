@@ -10,160 +10,160 @@ class AnalizadorSemantico:
         self.tokens = ['void','int','float','string']
         
 
-    def buscar(self,num):
+    def search(self,num):
         return self.tableHash.searchTableHash(num)
         
 
-    def _esFuncion(self,linea):
+    def isFuncion(self,linea):
         y = re.search('\(',linea)
         if(y):  
             return True
         else:
             return False
 
-    def crear_tabla(self):
-        contador = 0
-        cuerpo = ""
+    def createTable(self):
+        cont = 0
+        contenido = ""
         booleana = bool(0)
-        contador2 = 0
+        cont2 = 0
 
         with open("codigo.txt", "r") as f:
-            for linea in f:
-                if self._esFuncion(linea) is True:
-                     nombre = linea.split(' ')[1].strip() 
-                     contador = contador + 1
-                     cuerpo = ""
-                     for linea2 in f:
-                         if linea2 != ' ':
-                            x = re.search('\{',linea2)
-                            y = re.search('\}',linea2)
+            for line in f:
+                if self.isFuncion(line) is True:
+                     name = line.split(' ')[1].strip() 
+                     cont = cont + 1
+                     contenido = ""
+                     for line2 in f:
+                         if line2 != ' ':
+                            x = re.search('\{',line2)
+                            y = re.search('\}',line2)
                             if(x):
-                                z = re.search(nombre,linea2)
+                                z = re.search(name,line2)
                                 if (z):
-                                    contador = contador + 1
-                                    contador2 = contador2 + 1
+                                    cont = cont + 1
+                                    cont2 = cont2 + 1
                                 else:
-                                    if(self._tieneParametros(linea) == True):
+                                    if(self.tieneParametros(line) == True):
                                         x1 = 3
-                                        while x1 < linea.count(" ") - 1:
-                                            if  linea.split(' ')[x1].strip() != ',':
-                                                tipoV = linea.split(' ')[x1].strip()
-                                            if  linea.split(' ')[x1+1].strip() != ',':
-                                                nombreV = linea.split(' ')[x1+1].strip()
-                                            variable = Variable.Variable(tipoV,nombreV,None,"local",self._numerodelineas(linea2))
+                                        while x1 < line.count(" ") - 1:
+                                            if  line.split(' ')[x1].strip() != ',':
+                                                tipoV = line.split(' ')[x1].strip()
+                                            if  line.split(' ')[x1+1].strip() != ',':
+                                                nombreV = line.split(' ')[x1+1].strip()
+                                            variable = Variable.Variable(tipoV,nombreV,None,"local",self.numLine(line2))
                                             self.tableHash.insertTableHash(nombreV,variable)
                                             x1 = x1 + 3
                                  
-                                    cuerpo = cuerpo + linea2
-                                    contador = contador+1
-                                    contador2 = contador2 + 1
+                                    contenido = contenido + line2
+                                    cont = cont+1
+                                    cont2 = cont2 + 1
                                  
                                     for i in range(len(self.tokens)):
-                                        if linea2.split(' ')[0].strip() == self.tokens[i]:
-                                            tipo3 = linea2.split(' ')[0].strip()
-                                            nombre3 = linea2.split(' ')[1].strip()
+                                        if line2.split(' ')[0].strip() == self.tokens[i]:
+                                            tipo3 = line2.split(' ')[0].strip()
+                                            nombre3 = line2.split(' ')[1].strip()
                                             if tipo3 == "int":
-                                                valor13 = linea2.split('=')[1].strip()
+                                                valor13 = line2.split('=')[1].strip()
                                                 valor3 = valor13.replace(';','')
                                             
-                                            variable = Variable.Variable(tipo3,nombre3,valor3,"local",self._numerodelineas(linea2))
+                                            variable = Variable.Variable(tipo3,nombre3,valor3,"local",self.numLine(line2))
                                             self.tableHash.insertTableHash(nombre3,variable)
                             else:
                                 if(y):
-                                    contador = contador-1
-                                    if(contador == 0): 
+                                    cont = cont-1
+                                    if(cont == 0): 
                                         break
-                                    cuerpo = cuerpo + linea2
-                                    contador2 = contador2 + 1
+                                    contenido = contenido + line2
+                                    cont2 = cont2 + 1
 
                                     for i in range(len(self.tokens)):
-                                        if linea2.split(' ')[0].strip() == self.tokens[i]:
-                                            tipo3 = linea2.split(' ')[0].strip()
-                                            nombre3 = linea2.split(' ')[1].strip()
-                                            valor13 = linea2.split('=')[1].strip()
+                                        if line2.split(' ')[0].strip() == self.tokens[i]:
+                                            tipo3 = line2.split(' ')[0].strip()
+                                            nombre3 = line2.split(' ')[1].strip()
+                                            valor13 = line2.split('=')[1].strip()
                                             valor3 = valor13.replace(';','')
                         
-                                            variable = Variable.Variable(tipo3,nombre3,valor3,"local",self._numerodelineas(linea2))
+                                            variable = Variable.Variable(tipo3,nombre3,valor3,"local",self.numLine(line2))
                                             self.tableHash.insertTableHash(nombre3,variable)
                                 
                                 else:
-                                    cuerpo = cuerpo + linea2
-                                    contador2 = contador2 + 1
+                                    contenido = contenido + line2
+                                    cont2 = cont2 + 1
 
                                     for i in range(len(self.tokens)):
-                                        if linea2.split(' ')[0].strip() == self.tokens[i]:
-                                            tipo3 = linea2.split(' ')[0].strip()
-                                            nombre3 = linea2.split(' ')[1].strip()
-                                            valor13 = linea2.split('=')[1].strip()
+                                        if line2.split(' ')[0].strip() == self.tokens[i]:
+                                            tipo3 = line2.split(' ')[0].strip()
+                                            nombre3 = line2.split(' ')[1].strip()
+                                            valor13 = line2.split('=')[1].strip()
                                             valor3 = valor13.replace(';','')
                         
-                                            variable = Variable.Variable(tipo3,nombre3,valor3,"local",self._numerodelineas(linea2))
+                                            variable = Variable.Variable(tipo3,nombre3,valor3,"local",self.numLine(line2))
                                             self.tableHash.insertTableHash(nombre3,variable)
                             
                          
 
-                     funcion = Funcion.Funcion(linea.split(' ')[0].strip(),nombre,cuerpo,self._numerodelineas(linea2))
-                     self.tableHash.insertTableHash(nombre,funcion)
+                     funcion = Funcion.Funcion(line.split(' ')[0].strip(),name,contenido,self.numLine(line2))
+                     self.tableHash.insertTableHash(name,funcion)
 
                 else:
-                    if(contador2 == 0):
-                        if linea.count(" ") == 2:
-                             nombre = linea.split(' ')[0].strip()
-                             valor1 = linea.split('=')[1].strip()
+                    if(cont2 == 0):
+                        if line.count(" ") == 2:
+                             name = line.split(' ')[0].strip()
+                             valor1 = line.split('=')[1].strip()
                              valor = valor1.replace(';','')
 
-                             variable = Variable.Variable(None,nombre,valor,"global",self._numerodelineas(linea))
-                             self.tableHash.insertTableHash(nombre,variable)
+                             variable = Variable.Variable(None,name,valor,"global",self.numLine(line))
+                             self.tableHash.insertTableHash(name,variable)
                         else:
-                            tipo = linea.split(' ')[0].strip()
-                            nombre = linea.split(' ')[1].strip()
-                            valor1 = linea.split('=')[1].strip()
+                            tipo = line.split(' ')[0].strip()
+                            name = line.split(' ')[1].strip()
+                            valor1 = line.split('=')[1].strip()
                             valor = valor1.replace(';','')
                         
-                            variable = Variable.Variable(tipo,nombre,valor,"global",self._numerodelineas(linea))
-                            self.tableHash.insertTableHash(nombre,variable)
-                    elif linea.count(" ") == 3:
-                        tipo = linea.split(' ')[0].strip()
-                        nombre = linea.split(' ')[1].strip()
-                        valor1 = linea.split('=')[1].strip()
+                            variable = Variable.Variable(tipo,name,valor,"global",self.numLine(line))
+                            self.tableHash.insertTableHash(name,variable)
+                    elif line.count(" ") == 3:
+                        tipo = line.split(' ')[0].strip()
+                        name = line.split(' ')[1].strip()
+                        valor1 = line.split('=')[1].strip()
                         valor = valor1.replace(';','')
 
-                        variable = Variable.Variable(tipo,nombre,valor,"global",self._numerodelineas(linea))
-                        self.tableHash.insertTableHash(nombre,variable)
-                    elif linea.count(" ") == 2:
-                        nombre = linea.split(' ')[0].strip()
-                        valor1 = linea.split('=')[1].strip()
+                        variable = Variable.Variable(tipo,name,valor,"global",self.numLine(line))
+                        self.tableHash.insertTableHash(name,variable)
+                    elif line.count(" ") == 2:
+                        nombre = line.split(' ')[0].strip()
+                        valor1 = line.split('=')[1].strip()
                         valor = valor1.replace(';','')
 
-                        variable = Variable.Variable(None,nombre,valor,"global",self._numerodelineas(linea))
-                        self.tableHash.insertTableHash(nombre,variable)
+                        variable = Variable.Variable(None,name,valor,"global",self.numLine(line))
+                        self.tableHash.insertTableHash(name,variable)
 
-    def _imprimir(self):
+    def mostrar(self):
         print(self.tableHash.searchTableHash('cadena').getValueVar())
 
-    def _tieneParametros(self,linea):
+    def tieneParametros(self,linea):
         x = re.search('\(' '\)',linea)
 
         if(x):
             return False
         return True
 
-    def _esInt(self,linea):
+    def isInt(self,linea):
         x = re.search('int',linea)
         if(x):
             return True
         else:
             return False
 
-    def _cualTipoes(self,tipo):
-        if tipo == "int":
+    def whatType(self,typeT):
+        if typeT == "int":
             return int
-        if tipo == "string":
+        if typeT == "string":
             return str
-        if tipo == "float":
+        if typeT == "float":
             return float
 
-    def _numerodelineas(self,lineaAbuscar):
+    def numLine(self,lineaAbuscar):
         contador = 1
         with open("codigo.txt", "r") as f:
             for linea in f:
@@ -171,7 +171,7 @@ class AnalizadorSemantico:
                     return contador
                 contador = contador +1
 
-    def _while_if(self,linea):
+    def whileAndIf(self,linea):
         x = re.search('if',linea)
         y = re.search('while',linea)
 
@@ -179,14 +179,14 @@ class AnalizadorSemantico:
             return True
         return False
 
-    def es_flotante(self,variable):
+    def isFlotante(self,variable):
         try:
              float(variable)
              return True
         except:
              return False
           
-    def es_int(self,variable):
+    def isIntV(self,variable):
         try:
             int(variable)
             return True
@@ -194,27 +194,27 @@ class AnalizadorSemantico:
             return False
 
 
-    def _imprimirArchivo(self):
+    def mostrarArchivo(self):
         contador = 1
         with open("codigo.txt", "r") as f:
-            for linea in f:
-                print(contador , " ", linea,end='')
+            for line in f:
+                print(contador , " ", line,end='')
                 contador = contador+1
             print()
 
-    def _estaenlaTabla(self,variable):
+    def isInTable(self,variable):
         if self.tableHash.searchTableHash(variable) != None:
             return True
         return False
 
-    def _errorDeCuerpoFunciones(self):
+    def errorContenidoFunc(self):
          contador = 0
          contu = 0
          cont = 0
          with open("codigo.txt", "r") as f:
             for linea in f:
                 cont = 0
-                if self._esFuncion(linea) is True and self._while_if(linea) is False:
+                if self.isFuncion(linea) is True and self.whileAndIf(linea) is False:
                     nombre = linea.split(' ')[1].strip() 
                     cuerpo = self.tableHash.searchTableHash(nombre).getContenidoFuncion()
                     
@@ -228,28 +228,28 @@ class AnalizadorSemantico:
                             x = re.search('return',cuerpo)
 
                             if(x and tipo == "void" and cont == 0):
-                                print("Error en linea:" , self._numerodelineas(linea2)  , " 'return' no valido en funciones void")
+                                print("Error en linea:" , self.numLine(linea2)  , " 'return' no valido en funciones void")
                                 cont = cont+1
                         
                             if linea2.split(' ')[0].strip() == "return":
                                 nombreV1 = linea2.split(' ')[1].strip()
                                 nombreV  = nombreV1.replace(';','')
-                                if self._estaenlaTabla(nombreV) == True:
+                                if self.isInTable(nombreV) == True:
                                     tipoV = self.tableHash.searchTableHash(nombreV).getTypeVar()
                             
                                     if tipoV == None:
-                                        print("Error en linea:" , self._numerodelineas(linea2) + contador ,"La variable ", "'",self.tableHash.searchTableHash(nombreV).getNameVar(),"'", " No esta declarada")
+                                        print("Error en linea:" , self.numLine(linea2) + contador ,"La variable ", "'",self.tableHash.searchTableHash(nombreV).getNameVar(),"'", " No esta declarada")
 
                                     elif tipoV != tipo:
-                                            print("Error en linea:" , self._numerodelineas(linea2)  , " valor de retorno no coincide con el tipo de funcion")
+                                            print("Error en linea:" , self.numLine(linea2)  , " valor de retorno no coincide con el tipo de funcion")
                                 else:
-                                    if self.es_int(nombreV) == False and self.es_flotante(nombreV) == False:
+                                    if self.isIntV(nombreV) == False and self.isFlotante(nombreV) == False:
                                         if tipo != "string":
-                                            print("Error en linea:" , self._numerodelineas(linea2)  , " valor de retorno no coincide con el tipo de funcion")
+                                            print("Error en linea:" , self.numLine(linea2)  , " valor de retorno no coincide con el tipo de funcion")
 
-                                    if self.es_int(nombreV) == True or self.es_flotante(nombreV) == True:
+                                    if self.isIntV(nombreV) == True or self.isFlotante(nombreV) == True:
                                         if tipo != "int" and "float":
-                                            print("Error en linea:" , self._numerodelineas(linea2)  , " valor de retorno no coincide con el tipo de funcion")
+                                            print("Error en linea:" , self.numLine(linea2)  , " valor de retorno no coincide con el tipo de funcion")
 
                             if linea2.count(" ") == 2:
                                 conta = 0
@@ -258,84 +258,84 @@ class AnalizadorSemantico:
                                 valor2 = valor12.replace(';','')
 
       
-                                if self.es_int(valor2) == True and conta == 0:
+                                if self.isIntV(valor2) == True and conta == 0:
                                         if self.tableHash.searchTableHash(nombreV2).getTypeVar() != "int":
-                                            print("Error en linea:" , self._numerodelineas(linea2) , " valor del tipo de variable","'",self.tableHash.searchTableHash(nombreV2).getNameVar(),"'","no coincide")
+                                            print("Error en linea:" , self.numLine(linea2) , " valor del tipo de variable","'",self.tableHash.searchTableHash(nombreV2).getNameVar(),"'","no coincide")
                                             conta = conta+1
                                          
-                                if self.es_flotante(valor2) == True and self.tableHash.searchTableHash(nombreV2).getAlcanceVar() == "local" and conta == 0:
+                                if self.isFlotante(valor2) == True and self.tableHash.searchTableHash(nombreV2).getAlcanceVar() == "local" and conta == 0:
                                     if self.tableHash.searchTableHash(nombreV2).getTypeVar() != "float":
-                                        print("Error en linea:" , self._numerodelineas(linea2) , " valor del tipo de variable","'",self.tableHash.searchTableHash(nombreV2).getNameVar(),"'","no coincide")
+                                        print("Error en linea:" , self.numLine(linea2) , " valor del tipo de variable","'",self.tableHash.searchTableHash(nombreV2).getNameVar(),"'","no coincide")
                                         conta = conta + 1
 
-                                if self.es_flotante(valor2) == False and self.es_int(valor2) == False:
+                                if self.isFlotante(valor2) == False and self.isIntV(valor2) == False:
                                     if self.tableHash.searchTableHash(nombreV2).getTypeVar() != "string":
-                                        print("Error en linea:" , self._numerodelineas(linea2) , " valor del tipo de variable","'",self.tableHash.searchTableHash(nombreV2).getNameVar(),"'","no coincide")
+                                        print("Error en linea:" , self.numLine(linea2) , " valor del tipo de variable","'",self.tableHash.searchTableHash(nombreV2).getNameVar(),"'","no coincide")
                                 conta = 0   
 
                             nombreParametro = ""
-                            if self._while_if(linea2) is True:
+                            if self.whileAndIf(linea2) is True:
                                     nombreParametro = linea2.split(' ')[2].strip() 
                                     if self.tableHash.searchTableHash(nombreParametro) == None:
-                                        print("Error en linea:" , self._numerodelineas(linea2) , " La variable ","'", nombreParametro,"'", " no esta declarada")
+                                        print("Error en linea:" , self.numLine(linea2) , " La variable ","'", nombreParametro,"'", " no esta declarada")
                             contu = contu + 1
                             if contu == contador:
                                 break
 
-    def _errorAsignacion(self):
-        contador = 0
-        contador2 = 0
+    def errorDeAsignacion(self):
+        cont = 0
+        #contador2 = 0
 
         with open("codigo.txt", "r") as f:
             for linea in f:
-                if self._esFuncion(linea) is True and self._while_if(linea) is False:
+                if self.isFuncion(linea) is True and self.whileAndIf(linea) is False:
                      nombre = linea.split(' ')[1].strip() 
                      for i in range(len(self.tokens)):
                          if self.tableHash.searchTableHash(nombre).getTypeFuncion() != self.tokens[i]:
-                             contador = contador + 1
-                     if contador == 4:  
-                         print("Error en linea:" , self._numerodelineas(linea) , " Tipo de dato: " + self.tableHash.searchTableHash(nombre).getTypeVar() + " no valido")
-                     contador = 0 
+                             cont = cont + 1
+                     if cont == 4:  
+                         print("Error en linea:" , self.numLine(linea) , " Tipo de dato: " + self.tableHash.searchTableHash(nombre).getTypeVar() + " no valido")
+                     cont = 0 
                 else:
                     if linea.count(" ") == 3:
                         nombre = linea.split(' ')[1].strip()
                         for i in range(len(self.tokens)):
                                 if self.tableHash.searchTableHash(nombre).getTypeVar() != self.tokens[i]:
-                                   contador = contador + 1
-                        if contador == 4:  
+                                   cont = cont + 1
+                        if cont == 4:  
                                  if self.tableHash.searchTableHash(nombre).getTypeVar() != None:
-                                     print("Error en linea:" , self._numerodelineas(linea) , " Tipo de dato: " , self.tableHash.searchTableHash(nombre).getTypeVar() , " no valido")
+                                     print("Error en linea:" , self.numLine(linea) , " Tipo de dato: " , self.tableHash.searchTableHash(nombre).getTypeVar() , " no valido")
                                  if self.tableHash.searchTableHash(nombre).getTypeVar() == None:
-                                     print("Error en linea:" , self._numerodelineas(linea) ,"La variable " ,"'",self.tableHash.searchTableHash(nombre).getNameVar(),"'",self.tableHash.searchTableHash(nombre).getNameVar(), " No esta declarada")
-                        contador = 0
+                                     print("Error en linea:" , self.numLine(linea) ,"La variable " ,"'",self.tableHash.searchTableHash(nombre).getNameVar(),"'",self.tableHash.searchTableHash(nombre).getNameVar(), " No esta declarada")
+                        cont = 0
 
                         if self.tableHash.searchTableHash(nombre).getValueVar().isdigit() == True:
-                             if self._cualTipoes(self.tableHash.searchTableHash(nombre).getTypeVar()) != int and self._cualTipoes(self.tableHash.searchTableHash(nombre).getTypeVar()) != float:
-                                   print("Error en linea:" , self._numerodelineas(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
+                             if self.whatType(self.tableHash.searchTableHash(nombre).getTypeVar()) != int and self.whatType(self.tableHash.searchTableHash(nombre).getTypeVar()) != float:
+                                   print("Error en linea:" , self.numLine(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
 
-                        if self.tableHash.searchTableHash(nombre).getValueVar().isdigit() != True and self.es_flotante(self.tableHash.searchTableHash(nombre).getValueVar()) is False:
-                            if self._estaenlaTabla(self.tableHash.searchTableHash(nombre).getValueVar()) == True:
-                                if self._cualTipoes(self.tableHash.searchTableHash(nombre).getTypeVar()) != str and self.tableHash.searchTableHash(self.tableHash.searchTableHash(nombre).getValueVar()).getTypeVar() != self.tableHash.searchTableHash(nombre).getTypeVar():
-                                    print("Error en linea:" , self._numerodelineas(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
+                        if self.tableHash.searchTableHash(nombre).getValueVar().isdigit() != True and self.isFlotante(self.tableHash.searchTableHash(nombre).getValueVar()) is False:
+                            if self.isInTable(self.tableHash.searchTableHash(nombre).getValueVar()) == True:
+                                if self.whatType(self.tableHash.searchTableHash(nombre).getTypeVar()) != str and self.tableHash.searchTableHash(self.tableHash.searchTableHash(nombre).getValueVar()).getTypeVar() != self.tableHash.searchTableHash(nombre).getTypeVar():
+                                    print("Error en linea:" , self.numLine(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
                             else:
-                                if self._cualTipoes(self.tableHash.searchTableHash(nombre).getTypeVar()) != str:
-                                    print("Error en linea:" , self._numerodelineas(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
-                        if  self.es_flotante(self.tableHash.searchTableHash(nombre).getValueVar()) == True and self.tableHash.searchTableHash(nombre).getValueVar().isdigit() == False:
-                             if self._cualTipoes(self.tableHash.searchTableHash(nombre).getTypeVar()) != float:
-                                   print("Error en linea:" , self._numerodelineas(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
+                                if self.whatType(self.tableHash.searchTableHash(nombre).getTypeVar()) != str:
+                                    print("Error en linea:" , self.numLine(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
+                        if  self.isFlotante(self.tableHash.searchTableHash(nombre).getValueVar()) == True and self.tableHash.searchTableHash(nombre).getValueVar().isdigit() == False:
+                             if self.whatType(self.tableHash.searchTableHash(nombre).getTypeVar()) != float:
+                                   print("Error en linea:" , self.numLine(linea) , " valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide")
                                 
                         
                     elif linea.count(" ") == 2:
                         nombre = linea.split(' ')[0].strip()    
                         for i in range(len(self.tokens)):
                               if self.tableHash.searchTableHash(nombre).getTypeVar() != self.tokens[i]:
-                                  contador = contador + 1
-                        if contador == 4:  
+                                  cont = cont + 1
+                        if cont == 4:  
                                  if self.tableHash.searchTableHash(nombre).getTypeVar() != None:
-                                     print("Error en linea:" , self._numerodelineas(linea) , " Tipo de dato: " , self.tableHash.searchTableHash(nombre).getTypeVar() , " no valido")
+                                     print("Error en linea:" , self.numLine(linea) , " Tipo de dato: " , self.tableHash.searchTableHash(nombre).getTypeVar() , " no valido")
                                  if self.tableHash.searchTableHash(nombre).getTypeVar() == None:
-                                     print("Error en linea:" , self._numerodelineas(linea) ,"La variable ", "'",self.tableHash.searchTableHash(nombre).getNameVar(),"'", " No esta declarada")
-                        contador = 0
+                                     print("Error en linea:" , self.numLine(linea) ,"La variable ", "'",self.tableHash.searchTableHash(nombre).getNameVar(),"'", " No esta declarada")
+                        cont = 0
 
                         
                         
