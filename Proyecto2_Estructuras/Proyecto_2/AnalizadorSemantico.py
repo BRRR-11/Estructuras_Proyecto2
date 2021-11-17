@@ -8,7 +8,14 @@ class AnalizadorSemantico:
     def __init__(self):#Crea la tabla hash, los tipos permitidos son void,int,float,string
         self.tableHash = TablaHash.TablaHash()
         self.tokens = ['void','int','float','string']
-        
+ 
+    def mostrarArchivo(self):#Lee el archivo y lo muestra junto con el numero de lineas
+        contador = 1
+        with open("codigo.txt", "r") as f:
+            for line in f:
+                print(contador , " ", line,end='')
+                contador = contador+1
+            print()  
 
     def search(self,num):#Manda la llave para asi buscar una palabra en especifico
         return self.tableHash.searchTableHash(num)
@@ -67,14 +74,6 @@ class AnalizadorSemantico:
         except:
             return False
 
-
-    def mostrarArchivo(self):#Lee el archivo y lo muestra junto con el numero de lineas
-        contador = 1
-        with open("codigo.txt", "r") as f:
-            for line in f:
-                print(contador , " ", line,end='')
-                contador = contador+1
-            print()
 
     def isInTable(self,variable):#Busca si una variable esta almacenada en la tabla HASH
         if self.tableHash.searchTableHash(variable) != None:
