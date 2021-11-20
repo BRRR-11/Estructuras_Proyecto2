@@ -1,17 +1,7 @@
-int valor = 10
-string foo ( int n ) {
-string texto = "Mayor"
-if ( n > 10 ) {
-valor = "hola"
-return texto
-}
-return 10
-}
-
-void algo ( float x , int y ) {
-if ( ty < 10 ) {
-int numero = x
-float flotante = y	
+int x = 40;
+void funcion ( float v , string n ) {
+if ( v > 0.0 ) {
+n = "Mayor"
+x = x + 5
 }
 }
-string cadena = foo ( valor )
