@@ -316,7 +316,7 @@ class AnalizadorSemantico:
                         if  self.isFlotante(self.tableHash.searchTableHash(nombre).getValueVar()) == True and self.tableHash.searchTableHash(nombre).getValueVar().isdigit() == False:
                              if self.whatType(self.tableHash.searchTableHash(nombre).getTypeVar()) != float:
                                    print("Error en la linea ->" , self.numLine(linea) , " el valor del tipo de variable",self.tableHash.searchTableHash(nombre).getNameVar(),"no coincide con lo declarado")
-                                
+                        
                         
                     elif linea.count(" ") == 2:
                         nombre = linea.split(' ')[0].strip()    
@@ -329,6 +329,9 @@ class AnalizadorSemantico:
                                  if self.tableHash.searchTableHash(nombre).getTypeVar() == None:
                                      print("Error en la linea ->" , self.numLine(linea) ,"La variable ", "'",self.tableHash.searchTableHash(nombre).getNameVar(),"'", " no esta declarada")
                         cont = 0
+
+                    
+                    
 
                         
                         
